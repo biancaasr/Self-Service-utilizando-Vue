@@ -28,10 +28,10 @@
                     <div class="description">
                         <span class="name">{{product.name}}</span>
                         <span class="price">{{ product.price}}</span>
-                        <div class="quantity-area">
-                            <button>-</button>
+                        <div class="quantity-area" v-if="product.active">
+                            <button @click.stop="product.quantity--">-</button>
                             <span class="quantity">{{product.quantity}}</span>
-                            <button>+</button>
+                            <button @click.stop="product.quantity++">+</button>
                         </div>
                     </div>
                 </div>
@@ -48,14 +48,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1x Big Mac</td>
-                            <td>5.99</td>
+                        <tr v-for="product in products">
+                            <template v-if="product.active">
+                                <td v-if="product.active">{{ product.quantity + 'x ' + product.name }}</td>
+                                <td v-if="product.active"> {{ (product.quantity * product.price).toFixed(2)}}</td>
+
+                            </template>
+                        
                         </tr>
                         
                         <tr>
                             <th>Total</th>
-                            <th>5.99</th>
+                            <th>0.00</th>
                         </tr>
                     </tbody>
                 </table>
